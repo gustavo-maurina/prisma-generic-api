@@ -10,6 +10,8 @@ async function main() {
 
   const usuario_teste = await prisma.usuario.create({
     data: {
+      id_firebase: "tEsTe_hAsH_tErCeIrO",
+      email: "teste@teste.com.br",
       nome: "Usuário",
       sobrenome: "Teste",
       data_nascimento: new Date(),

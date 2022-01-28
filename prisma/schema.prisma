@@ -9,6 +9,8 @@ datasource db {
 
 model usuario {
   id              Int      @id @default(autoincrement())
+  id_firebase     String   @unique
+  email           String   @unique
   nome            String
   sobrenome       String
   funcao          funcao   @relation(fields: [id_funcao], references: [id])

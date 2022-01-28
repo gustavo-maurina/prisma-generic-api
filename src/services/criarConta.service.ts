@@ -1,0 +1,56 @@
+import { PrismaClient } from "@prisma/client";
+import { PrismaClientValidationError } from "@prisma/client/runtime";
+import firebase from "firebase-admin";
+
+interface FirebaseUserProps {
+  email: string;
+  senha: string;
+  nome: string;
+  sobrenome: string;
+  funcao: number;
+  dataNascimento: Date;
+}
+
+const salvarUsuarioNoBanco = async (body: FirebaseUserProps, uid: string) => {
+  const prisma = new PrismaClient();
+
+  try {
+    const usuario = await prisma.usuario.create({
+      data: {
+        id_firebase: uid,
+        email: body.email,
+        nome: body.nome,
+        sobrenome: body.sobrenome,
+        id_funcao: body.funcao,
+        data_nascimento: new Date(body.dataNascimento),
+      },
+    });
+
+    return usuario;
+  } catch (err: any) {
+    await firebase.auth().deleteUser(uid);
+    throw err;
+  }
+};
+
+const criarUsuarioFirebase = async (body: FirebaseUserProps) => {
+  const { email, senha, nome, sobrenome } = body;
+
+  return await firebase.auth().createUser({
+    email: email,
+    password: senha,
+    displayName: `${nome} ${sobrenome}`,
+  });
+};
+
+const criarUsuario = async (body: FirebaseUserProps) => {
+  try {
+    const usuario = await criarUsuarioFirebase(body);
+    await salvarUsuarioNoBanco(body, usuario.uid);
+    return usuario;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export { criarUsuario };

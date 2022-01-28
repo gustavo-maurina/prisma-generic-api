@@ -1,16 +1,23 @@
-import { Request, Response } from "express";
 require("dotenv").config();
-const PORT = process.env.SERVER_PORT;
+import { Request, Response } from "express";
+import path from "path";
+import fs from "fs";
+import express from "express";
+import cors from "cors";
+import firebase from "firebase-admin";
+import fbServiceAccountKey from "./fbServiceAccountKey.json";
 
-const express = require("express");
+firebase.initializeApp({
+  credential: firebase.credential.cert(fbServiceAccountKey as any),
+});
+
+const PORT = process.env.SERVER_PORT;
 const app = express();
-const path = require("path");
-const fs = require("fs");
-const cors = require("cors");
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-app.options("*", cors());
+app.options("*", cors<any>());
 
 app.get("/", (req: Request, res: Response) => {
   res.send({ message: "API request test" }).status(200);
@@ -22,7 +29,8 @@ fs.readdirSync(routePath).forEach((file: string) => {
   let fileName = file.replace(".ts", "");
   fileName = fileName.split(".")[0];
 
-  const route = require(`../src/routes/${fileName}.route`);
+  const route = require(`../src/routes/${fileName}.route`).default;
+
   app.use("/" + fileName, route);
 });
 
