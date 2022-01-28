@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import handleQueryError from "../helpers/handleQueryError.helper";
-import { criarUsuario } from "../services/criarConta.service";
+import handleQueryError from "../helpers/handleQueryError.helpers";
+import { criarUsuario } from "../services/criarConta.services";
 
 export const criarConta = async (req: Request, res: Response) => {
   criarUsuario(req.body)

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import path from "path";
-import * as genericQueries from "../services/genericQueries.service";
-import handleQueryError from "../helpers/handleQueryError.helper";
+import * as genericQueries from "../services/genericQueries.services";
+import handleQueryError from "../helpers/handleQueryError.helpers";
 
 const nomeTabela = path.basename(__filename).split(".")[0];
 

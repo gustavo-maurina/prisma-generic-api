@@ -29,7 +29,7 @@ fs.readdirSync(routePath).forEach((file: string) => {
   let fileName = file.replace(".ts", "");
   fileName = fileName.split(".")[0];
 
-  const route = require(`../src/routes/${fileName}.route`).default;
+  const route = require(`../src/routes/${fileName}.routes`).default;
 
   app.use("/" + fileName, route);
 });

@@ -1,4 +1,4 @@
-import * as controller from "../controllers/usuario.controller";
+import * as controller from "../controllers/usuario.controllers";
 import express from "express";
 
 const router = express.Router();

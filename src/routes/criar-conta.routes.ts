@@ -1,4 +1,4 @@
-import { criarConta } from "../controllers/criarConta.controller";
+import { criarConta } from "../controllers/criarConta.controllers";
 import express from "express";
 
 const router = express.Router();
