@@ -5,13 +5,13 @@
 1. Baixar dependências com:
 
 ```bash
-npm install
+yarn install
 ```
 
 2. Adicionar Prisma como _devDependency_ para utilizar a CLI
 
 ```bash
-npm install prisma --save-dev
+yarn install prisma --save-dev
 ```
 
 ---
