@@ -4,18 +4,22 @@ import * as genericQueries from "../services/genericQueries.services";
 import handleQueryError from "../helpers/handleQueryError.helpers";
 
 const nomeTabela = path.basename(__filename).split(".")[0];
-
-const post = async (req: Request, res: Response) => {
-  try {
-    res.status(200).send(await genericQueries.create(nomeTabela, req.body));
-  } catch (err) {
-    res.status(500).send(handleQueryError(err));
-  }
-};
+const columnsToSearch = ["nome", "sobrenome", "email"];
 
 const getAll = async (req: Request, res: Response) => {
   try {
-    res.status(200).send(await genericQueries.findAll(nomeTabela));
+    if (!req.query.hasOwnProperty("text"))
+      return res.status(200).send(await genericQueries.findAll(nomeTabela));
+
+    return res
+      .status(200)
+      .send(
+        await genericQueries.findAllWithSearch(
+          nomeTabela,
+          columnsToSearch,
+          req.query.text as string
+        )
+      );
   } catch (err) {
     res.status(500).send(handleQueryError(err));
   }
@@ -23,12 +27,12 @@ const getAll = async (req: Request, res: Response) => {
 
 const getById = async (req: Request, res: Response) => {
   try {
-    res
+    return res
       .status(200)
       .send(await genericQueries.findById(nomeTabela, req.params.id));
   } catch (err) {
-    res.status(500).send(handleQueryError(err));
+    return res.status(500).send(handleQueryError(err));
   }
 };
 
-export { post, getAll, getById };
+export { getAll, getById };

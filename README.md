@@ -16,6 +16,12 @@ yarn install prisma --save-dev
 
 ---
 
+## Utilizar _Prisma Client_
+
+#### Uma instância do _Prisma Client_ é exportada do arquivo `config/prisma.ts` e deve ser utilizada ao longo da aplicação para executar queries no banco principal.
+
+---
+
 ## Comandos _Prisma Migrate_
 
 #### Executar migrações :

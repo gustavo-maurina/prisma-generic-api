@@ -1,22 +1,26 @@
 import * as controller from "../controllers/usuario.controllers";
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import PrismaGenericClient from "../../config/prisma";
 
 const router = express.Router();
 
 router.route("/").post(async (req, res, next) => {
-  const prisma = new PrismaClient();
-  const fullTextSearch = await prisma.usuario.findMany({
+  const fullTextSearch = await PrismaGenericClient.usuario.findMany({
     where: {
       OR: [
         {
           nome: {
-            search: "teste",
+            contains: "teste",
           },
         },
         {
           sobrenome: {
-            search: "teste",
+            contains: "teste",
+          },
+        },
+        {
+          email: {
+            contains: "@teste.com.br",
           },
         },
       ],
