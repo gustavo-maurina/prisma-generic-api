@@ -11,7 +11,7 @@ firebase.initializeApp({
   credential: firebase.credential.cert(fbServiceAccountKey as any),
 });
 
-const PORT = process.env.SERVER_PORT;
+const PORT = process.env.SERVER_PORT || 8080;
 const app = express();
 
 app.use(express.json());
@@ -22,7 +22,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send({ message: "API request test" }).status(200);
 });
 
-// transformar todos arquivos dentro da pasta routes em rotas
+/** Transformar todos arquivos dentro da pasta routes em rotas */
 const routePath = path.resolve(__dirname, "../src/routes/");
 fs.readdirSync(routePath).forEach((file: string) => {
   let fileName = file.replace(".ts", "");
