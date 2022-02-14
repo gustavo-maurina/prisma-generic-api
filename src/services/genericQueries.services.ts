@@ -8,7 +8,7 @@ const createTextSearchCfg = (columns: string[], textToSearch: string) => {
 
   columns.forEach((col) => {
     let config: any = {};
-    config[col] = { contains: textToSearch };
+    config[col] = { contains: textToSearch, mode: "insensitive" };
     configs.push(config);
   });
 

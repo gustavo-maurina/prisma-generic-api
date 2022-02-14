@@ -8,7 +8,7 @@ const columnsToSearch = ["nome", "sobrenome", "email"];
 
 const getAll = async (req: Request, res: Response) => {
   try {
-    if (!req.query.hasOwnProperty("text"))
+    if (!req.query.hasOwnProperty("search"))
       return res.status(200).send(await genericQueries.findAll(nomeTabela));
 
     return res
@@ -17,7 +17,7 @@ const getAll = async (req: Request, res: Response) => {
         await genericQueries.findAllWithSearch(
           nomeTabela,
           columnsToSearch,
-          req.query.text as string
+          req.query.search as string
         )
       );
   } catch (err) {
