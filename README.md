@@ -13,7 +13,7 @@ yarn install
 2. Adicionar Prisma como _devDependency_ para utilizar a CLI
 
 ```bash
-yarn install prisma --save-dev
+yarn add prisma --dev
 ```
 
 <br/>
@@ -22,7 +22,7 @@ yarn install prisma --save-dev
 
 ---
 
-#### Uma instância do _Prisma Client_ é exportada do arquivo `config/prisma.ts` e deve ser utilizada ao longo da aplicação para executar queries no banco principal.
+Uma instância do _Prisma Client_ é exportada do arquivo `config/prisma.ts` e deve ser utilizada ao longo da aplicação para executar queries no banco principal.
 
 <br/>
 
