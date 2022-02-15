@@ -16,7 +16,6 @@ yarn install
 yarn add prisma --dev
 ```
 
-<br/>
 
 ### Utilizar _Prisma Client_
 
@@ -24,7 +23,6 @@ yarn add prisma --dev
 
 Uma instância do _Prisma Client_ é exportada do arquivo `config/prisma.ts` e deve ser utilizada ao longo da aplicação para executar queries no banco principal.
 
-<br/>
 
 ### Comandos _Prisma Migrate_
 
@@ -48,7 +46,6 @@ npx prisma migrate reset
 npx prisma db seed
 ```
 
-<br/>
 
 ### Fluxo para criação de novas rotas
 
@@ -60,7 +57,6 @@ npx prisma db seed
 
 3.  Sempre utilizar blocos de _try-catch_ nos arquivos `controllers`, de preferência usando uma função _handler_ para retornar os erros na request. Por exemplo: `src/helpers/handleQueryError.ts`, que trata erros gerados por queries do _Prisma Client_.
 
-<br/>
 
 ### Estrutura de pastas
 
