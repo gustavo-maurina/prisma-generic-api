@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { Request } from "express";
 import PrismaGenericClient from "../../config/prisma";
 
 const prisma: any = PrismaGenericClient;
@@ -15,9 +16,22 @@ const createTextSearchCfg = (columns: string[], textToSearch: string) => {
   return configs;
 };
 
-export const findAll = async (nomeTabela: string) => {
+const getPaginatedWhere = (where: any, page: any) => {
+  let paginated = { take: 10, ...where };
+  if (page > 1) paginated.skip = (parseInt(page) - 1) * 10;
+  return paginated;
+};
+
+export const findAll = async (nomeTabela: string, req: Request) => {
   try {
-    const items = await prisma[nomeTabela as keyof PrismaClient].findMany();
+    let where = {};
+
+    if (req?.query.hasOwnProperty("p"))
+      where = getPaginatedWhere(where, req.query.p);
+
+    const items = await prisma[nomeTabela as keyof PrismaClient].findMany(
+      where
+    );
     return items;
   } catch (err) {
     throw err;
@@ -29,19 +43,27 @@ export const findAll = async (nomeTabela: string) => {
 export const findAllWithSearch = async (
   nomeTabela: string,
   columnsToSearch?: string[],
-  textToSearch?: string
+  req?: Request
 ) => {
   try {
     const searchConfig = createTextSearchCfg(
       columnsToSearch as string[],
-      textToSearch as string
+      req?.query.search as string
     );
 
-    const items = await prisma[nomeTabela as keyof PrismaClient].findMany({
+    let where: any = {
       where: {
         OR: searchConfig,
       },
-    });
+    };
+
+    if (req?.query.hasOwnProperty("p"))
+      where = getPaginatedWhere(where, req.query.p);
+
+    const items = await prisma[nomeTabela as keyof PrismaClient].findMany(
+      where
+    );
+
     return items;
   } catch (err) {
     throw err;
@@ -71,8 +93,6 @@ export const create = async (nomeTabela: string, body: object) => {
 
     return result;
   } catch (err) {
-    console.log(err);
-
     throw err;
   }
 };

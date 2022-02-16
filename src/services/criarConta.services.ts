@@ -46,6 +46,7 @@ const criarUsuario = async (body: FirebaseUserProps) => {
   try {
     const usuario = await criarUsuarioFirebase(body);
     await salvarUsuarioNoBanco(body, usuario.uid);
+
     return usuario;
   } catch (err) {
     throw err;

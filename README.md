@@ -1,6 +1,6 @@
 # Prisma API
 
-### Iniciar o projeto
+## Iniciar o projeto
 
 ---
 
@@ -16,17 +16,13 @@ yarn install
 yarn add prisma --dev
 ```
 
-<br/>
-
-### Utilizar _Prisma Client_
+## Utilizar _Prisma Client_
 
 ---
 
 Uma instância do _Prisma Client_ é exportada do arquivo `config/prisma.ts` e deve ser utilizada ao longo da aplicação para executar queries no banco principal.
 
-<br/>
-
-### Comandos _Prisma Migrate_
+## Comandos _Prisma Migrate_
 
 ---
 
@@ -48,9 +44,7 @@ npx prisma migrate reset
 npx prisma db seed
 ```
 
-<br/>
-
-### Fluxo para criação de novas rotas
+## Fluxo para criação de novas rotas
 
 ---
 
@@ -60,9 +54,7 @@ npx prisma db seed
 
 3.  Sempre utilizar blocos de _try-catch_ nos arquivos `controllers`, de preferência usando uma função _handler_ para retornar os erros na request. Por exemplo: `src/helpers/handleQueryError.ts`, que trata erros gerados por queries do _Prisma Client_.
 
-<br/>
-
-### Estrutura de pastas
+## Estrutura de pastas
 
 ---
 
@@ -75,3 +67,16 @@ npx prisma db seed
 - `middlewares`: middlewares.
 
 - `helpers`: blocos de lógica para uso geral, que podem ser usados em vários lugares da aplicação, como _handlers_, conversões de valores, etc.
+
+## Estrutura de queries
+
+---
+
+Exemplo de query genérica:
+
+```
+http://localhost:8080/usuario?search=teste&p=3
+```
+
+- **search**: textos para pesquisar nas colunas;
+- **p**: número da pagina para ser retornada;
