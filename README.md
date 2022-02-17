@@ -62,8 +62,8 @@ import { genericGetById } from "../services/genericRequests/genericGetById";
 
 const router = Router();
 const cfg: GenericRequestConfig = {
-  table: "usuario",
-  columnsToSearch: ["nome", "sobrenome", "email"],
+  table: "usuario", // nome da tabela
+  columnsToSearch: ["nome", "sobrenome", "email"], // colunas para buscar texto quando houver parâmetro
 };
 
 router.route("/").get((req, res) => genericGetAll(req, res, cfg));
