@@ -15,7 +15,7 @@ const getSearchConfig = (columnsToSearch: string[], searchText: string) => {
   return config;
 };
 
-const getPaginatedConfig = async (
+const getPaginatedResponse = async (
   tabela: string,
   queryConfig: any,
   page: string
@@ -67,7 +67,7 @@ export const genericFindAllWithParams = async (
     }
 
     /** executar query com paginação, com ou sem search */
-    response = getPaginatedConfig(
+    response = getPaginatedResponse(
       nomeTabela,
       queryConfig,
       req.query.p as string
