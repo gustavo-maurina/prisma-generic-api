@@ -1,10 +1,15 @@
-import * as controller from "../controllers/usuario.controllers";
-import express from "express";
-import verifyJwt from "../middlewares/verifyJwt.middlewares";
+import { Router } from "express";
+import { GenericRequestConfig } from "../models/GenericRequestConfig";
+import { genericGetAll } from "../services/genericRequests/genericGetAll";
+import { genericGetById } from "../services/genericRequests/genericGetById";
 
-const router = express.Router();
+const router = Router();
+const cfg: GenericRequestConfig = {
+  table: "usuario",
+  columnsToSearch: ["nome", "sobrenome", "email"],
+};
 
-router.route("/").get(controller.getAll);
-router.route("/:id").get(controller.getById);
+router.route("/").get((req, res) => genericGetAll(req, res, cfg));
+router.route("/:id").get((req, res) => genericGetById(req, res, cfg));
 
 export default router;

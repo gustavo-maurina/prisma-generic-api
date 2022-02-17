@@ -14,6 +14,12 @@ yarn install
 yarn add prisma --dev
 ```
 
+3. Rodar o script para iniciar o projeto
+
+```bash
+yarn run dev
+```
+
 ## Utilizar _Prisma Client_
 
 Uma instância do _Prisma Client_ é exportada do arquivo `config/prisma.ts` e deve ser utilizada ao longo da aplicação para executar queries no banco principal.
@@ -40,11 +46,31 @@ npx prisma db seed
 
 ## Fluxo para criação de novas rotas
 
-1.  Criar arquivo com o nome da rota desejada na pasta `src/routes` no seguinte formato: `minha-rota.routes.ts`.
+1.  Criar arquivo com o nome da rota desejada na pasta `/routes` no seguinte formato: `minha-rota.routes.ts`.
 
-2.  Declarar rotas válidas e iniciar lógica direcionando para métodos do arquivo responsável na pasta `src/controllers`.
+2.  Declarar rotas válidas e iniciar lógica direcionando para métodos do arquivo responsável na pasta `/controllers`, ou para os métodos genéricos da pasta `/services/genericRequests` caso a rota não tenha um fluxo especial.
 
-3.  Sempre utilizar blocos de _try-catch_ nos arquivos `controllers`, de preferência usando uma função _handler_ para retornar os erros na request. Por exemplo: `src/helpers/handleQueryError.ts`, que trata erros gerados por queries do _Prisma Client_.
+3.  Sempre utilizar blocos de _try-catch_ nos arquivos `.controllers`, de preferência usando uma função _handler_ para retornar os erros na request. Por exemplo: `/helpers/handleQueryError.ts`, que trata erros gerados por queries do _Prisma Client_.
+
+### Exemplo de arquivo `.routes` genérico
+
+```typescript
+import { Router } from "express";
+import { GenericRequestConfig } from "../models/GenericRequestConfig";
+import { genericGetAll } from "../services/genericRequests/genericGetAll";
+import { genericGetById } from "../services/genericRequests/genericGetById";
+
+const router = Router();
+const cfg: GenericRequestConfig = {
+  table: "usuario",
+  columnsToSearch: ["nome", "sobrenome", "email"],
+};
+
+router.route("/").get((req, res) => genericGetAll(req, res, cfg));
+router.route("/:id").get((req, res) => genericGetById(req, res, cfg));
+
+export default router;
+```
 
 ## Estrutura de pastas
 

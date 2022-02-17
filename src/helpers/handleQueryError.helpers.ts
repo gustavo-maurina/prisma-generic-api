@@ -1,4 +1,5 @@
 import { PrismaClientValidationError } from "@prisma/client/runtime";
+import { objectHasProperty } from "./objectHasProperty.helper";
 import handleFirebaseError from "./handleFirebaseError";
 import handlePrismaError from "./handlePrismaError";
 
@@ -8,7 +9,9 @@ import handlePrismaError from "./handlePrismaError";
  * @param erro Erro captado pelo bloco catch do try-catch
  * @returns Objeto contendo sempre mensagem de erro, podendo conter código.
  */
-const handleQueryerro = (erro: any) => {
+export const handleQueryError = (erro: any) => {
+  console.log(erro);
+
   /* 
      Se o erro for do tipo PrismaClientValidationError, não exibirá quando a
      propriedade msg quando for feito log, por isso manter sempre o teste de 
@@ -19,12 +22,10 @@ const handleQueryerro = (erro: any) => {
   let response: any = {};
   response.msg = "Ocorreu um erro interno.";
 
-  if (erro.hasOwnProperty("cod"))
+  if (objectHasProperty(erro, "cod"))
     response = handlePrismaError(erro, response.msg);
-  else if (erro.hasOwnProperty("errorInfo"))
-    response = handleFirebaseError(erro, response.msg);
+  else if (objectHasProperty(erro, "errorInfo"))
+    response = handleFirebaseError(erro);
 
   return response;
 };
-
-export default handleQueryerro;

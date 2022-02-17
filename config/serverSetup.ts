@@ -26,7 +26,7 @@ const generateRoutesFromFiles = (app: any) => {
   fs.readdirSync(routePath).forEach((file: string) => {
     let fileName = file.replace(".ts", "");
     fileName = fileName.split(".")[0];
-    const route = require(`../src/routes/${fileName}.routes`).default;
+    const route = require(`../src/routes/${fileName}.routes`).default; // eslint-disable-line
     app.use("/" + fileName, route);
   });
 };

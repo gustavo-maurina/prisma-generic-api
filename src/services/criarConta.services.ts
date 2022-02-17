@@ -29,6 +29,8 @@ const salvarUsuarioNoBanco = async (body: FirebaseUserProps, uid: string) => {
   } catch (err: any) {
     await firebase.auth().deleteUser(uid);
     throw err;
+  } finally {
+    prisma.$disconnect();
   }
 };
 
@@ -42,15 +44,9 @@ const criarUsuarioFirebase = async (body: FirebaseUserProps) => {
   });
 };
 
-const criarUsuario = async (body: FirebaseUserProps) => {
-  try {
-    const usuario = await criarUsuarioFirebase(body);
-    await salvarUsuarioNoBanco(body, usuario.uid);
+export const criarUsuario = async (body: FirebaseUserProps) => {
+  const usuario = await criarUsuarioFirebase(body);
+  await salvarUsuarioNoBanco(body, usuario.uid);
 
-    return usuario;
-  } catch (err) {
-    throw err;
-  }
+  return usuario;
 };
-
-export { criarUsuario };

@@ -1,10 +1,9 @@
-import * as controller from "../controllers/usuario.controllers";
 import express from "express";
 import PrismaGenericClient from "../../config/prisma";
 
 const router = express.Router();
 
-router.route("/").post(async (req, res, next) => {
+router.route("/").post(async (req, res) => {
   const fullTextSearch = await PrismaGenericClient.usuario.findMany({
     where: {
       OR: [

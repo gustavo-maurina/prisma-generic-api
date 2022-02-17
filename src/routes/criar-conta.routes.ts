@@ -1,7 +1,7 @@
 import { criarConta } from "../controllers/criarConta.controllers";
-import express from "express";
+import { Router } from "express";
 
-const router = express.Router();
+const router = Router();
 router.route("/").post(criarConta);
 
 export default router;

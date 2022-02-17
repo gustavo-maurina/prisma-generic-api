@@ -64,7 +64,7 @@ const handlePrismaError = (erro: any, msg: any) => {
       break;
   }
 
-  let erroObject: any = { msg: msg + " Operação falhou." };
+  const erroObject: any = { msg: msg + " Operação falhou." };
   if (erro.cod) erroObject.erro_cod = erro.cod;
 
   return erroObject;

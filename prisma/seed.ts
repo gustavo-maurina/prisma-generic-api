@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const funcao_medico = await prisma.funcao.createMany({
+  await prisma.funcao.createMany({
     data: [
       {
         descricao: "Médico",
@@ -13,7 +13,7 @@ async function main() {
     ],
   });
 
-  const usuario_teste = await prisma.usuario.createMany({
+  await prisma.usuario.createMany({
     data: [
       {
         id_firebase: "t3sT3_H4Sh_F1r3B4s3-1",

@@ -1,12 +1,10 @@
-import { FirebaseError } from "firebase-admin";
-
 /**
  * Trata e retorna mensagem de erro de acordo com o código de erro recebido
  * @param erro
  * @param msg
  * @returns Mensagem de erro formatada
  */
-const handleFirebaseError = (erro: any, msg: any) => {
+const handleFirebaseError = (erro: any) => {
   // switch (erro.code) {
   //   case "auth/invalid-api-key":
   //     msg = "Chave da API inválida. Verifique se o valor está correta.";
@@ -17,7 +15,7 @@ const handleFirebaseError = (erro: any, msg: any) => {
   //     break;
   // }
 
-  let errorObject = erro.errorInfo;
+  const errorObject = erro.errorInfo;
 
   return errorObject;
 };

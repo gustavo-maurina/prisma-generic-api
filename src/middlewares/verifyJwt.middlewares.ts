@@ -16,6 +16,6 @@ export default function verifyJwt(
   return firebase
     .auth()
     .verifyIdToken(jwt)
-    .then((success) => next())
+    .then(() => next())
     .catch((err) => res.status(401).send({ err }));
 }
