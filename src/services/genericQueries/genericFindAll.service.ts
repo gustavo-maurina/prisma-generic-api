@@ -10,6 +10,6 @@ import { prisma } from "../../../config/prisma";
 export const genericFindAll = async (nomeTabela: string) => {
   const items = await (
     prisma[nomeTabela as keyof PrismaClient] as any
-  ).findMany();
+  ).findMany({ orderBy: [{ id: "asc" }] });
   return items;
 };

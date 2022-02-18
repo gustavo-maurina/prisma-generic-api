@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Request } from "express";
 import { prisma } from "../../../config/prisma";
-import { objectHasProperty } from "../../helpers/objectHasProperty.helper";
 import { genericFindAll } from "./genericFindAll.service";
 import { genericFindAllWithParams } from "./genericFindAllWithParams.service";
 
@@ -10,10 +9,9 @@ const findAll = (
   columnsToSearch: string[],
   req: Request
 ) => {
-  if (
-    objectHasProperty(req.query, "p") ||
-    objectHasProperty(req.query, "search")
-  )
+  const hasParams = req.query.p || req.query.search;
+
+  if (hasParams)
     return genericFindAllWithParams(nomeTabela, columnsToSearch, req);
 
   return genericFindAll(nomeTabela);
@@ -25,6 +23,7 @@ const findById = async (nomeTabela: string, id: string) => {
   ).findUnique({
     where: { id: parseInt(id) },
   });
+
   return items;
 };
 
@@ -46,7 +45,6 @@ const update = async (nomeTabela: string, body: object, id: string) => {
       data: body,
     }
   );
-
   return result;
 };
 
@@ -58,7 +56,6 @@ const remove = async (nomeTabela: string, id: string) => {
       },
     }
   );
-
   return result;
 };
 /**

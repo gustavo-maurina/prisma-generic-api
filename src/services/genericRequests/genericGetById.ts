@@ -9,9 +9,11 @@ export const genericGetById = async (
   config: GenericRequestConfig
 ) => {
   try {
-    return res
-      .status(200)
-      .send(await genericQueries.findById(config.table, req.params.id));
+    const query = await genericQueries.findById(config.table, req.params.id);
+    if (query === null)
+      return res.status(404).send({ message: "Registro não encontrado" });
+
+    return res.status(200).send(query);
   } catch (err) {
     return res.status(500).send(handleQueryError(err));
   }

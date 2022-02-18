@@ -42,20 +42,18 @@ export const genericFindAllWithParams = async (
   columnsToSearch: string[],
   req: Request
 ) => {
-  const tabela = nomeTabela as string;
-  let response;
-  let queryConfig;
+  let response, queryConfig;
 
   /** configurar query com pesquisa */
-  if (objectHasProperty(req.query, "search")) {
+  if (objectHasProperty(req.query, "search"))
     queryConfig = getSearchConfig(columnsToSearch, req.query.search as string);
-  }
 
   /** retornar query sem paginação */
   if (!objectHasProperty(req.query, "p")) {
-    response = await (prisma[tabela as keyof PrismaClient] as any).findMany(
+    response = await (prisma[nomeTabela as keyof PrismaClient] as any).findMany(
       queryConfig
     );
+
     return response;
   }
 

@@ -3,7 +3,7 @@
  *
  * @param columns colunas que serão feitas as buscas
  * @param textToSearch texto que deve ser buscado
- * @returns
+ * @returns configuração para usar search no Prisma Client
  */
 export const createTextSearchCfg = (
   columns: string[],
