@@ -1,5 +1,5 @@
 import firebase from "firebase-admin";
-import PrismaGenericClient from "../../config/prisma";
+import { prisma } from "../../config/prisma";
 
 interface FirebaseUserProps {
   email: string;
@@ -11,8 +11,6 @@ interface FirebaseUserProps {
 }
 
 const salvarUsuarioNoBanco = async (body: FirebaseUserProps, uid: string) => {
-  const prisma = PrismaGenericClient;
-
   try {
     const usuario = await prisma.usuario.create({
       data: {
@@ -29,8 +27,6 @@ const salvarUsuarioNoBanco = async (body: FirebaseUserProps, uid: string) => {
   } catch (err: any) {
     await firebase.auth().deleteUser(uid);
     throw err;
-  } finally {
-    prisma.$disconnect();
   }
 };
 

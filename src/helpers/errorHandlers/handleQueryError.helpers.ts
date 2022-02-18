@@ -1,5 +1,5 @@
 import { PrismaClientValidationError } from "@prisma/client/runtime";
-import { objectHasProperty } from "./objectHasProperty.helper";
+import { objectHasProperty } from "../objectHasProperty.helper";
 import handleFirebaseError from "./handleFirebaseError";
 import handlePrismaError from "./handlePrismaError";
 
@@ -11,18 +11,21 @@ import handlePrismaError from "./handlePrismaError";
  */
 export const handleQueryError = (erro: any) => {
   console.log(erro);
-
   /* 
      Se o erro for do tipo PrismaClientValidationError, não exibirá quando a
      propriedade msg quando for feito log, por isso manter sempre o teste de 
      instanceof
   */
-  if (erro instanceof PrismaClientValidationError) return erro.message;
+  if (erro instanceof PrismaClientValidationError)
+    return {
+      código: "Erro de validação, existem valores inválidos",
+      mensagem: erro.message,
+    };
 
   let response: any = {};
   response.msg = "Ocorreu um erro interno.";
 
-  if (objectHasProperty(erro, "cod"))
+  if (objectHasProperty(erro, "code"))
     response = handlePrismaError(erro, response.msg);
   else if (objectHasProperty(erro, "errorInfo"))
     response = handleFirebaseError(erro);

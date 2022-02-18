@@ -6,7 +6,7 @@
  */
 const handlePrismaError = (erro: any, msg: any) => {
   const fields = erro.meta;
-  switch (erro.cod) {
+  switch (erro.code) {
     case "P1008":
       msg = "Operações sofream timeout.";
       break;
@@ -61,6 +61,10 @@ const handlePrismaError = (erro: any, msg: any) => {
 
     case "P2022":
       msg = `Coluna ${fields.column} não existe.`;
+      break;
+
+    case "P2025":
+      msg = `Registro a ser deletado não existe.`;
       break;
   }
 

@@ -1,9 +1,8 @@
+import { PrismaClient } from "@prisma/client";
 import { Request } from "express";
-import PrismaGenericClient from "../../../config/prisma";
+import { prisma } from "../../../config/prisma";
 import { objectHasProperty } from "../../helpers/objectHasProperty.helper";
 import { createTextSearchCfg, getPaginatedWhere } from "./queryUtils.service";
-
-const prisma: any = PrismaGenericClient;
 
 const getSearchConfig = (columnsToSearch: string[], searchText: string) => {
   const searchConfig = createTextSearchCfg(columnsToSearch, searchText);
@@ -22,14 +21,12 @@ const getPaginatedResponse = async (
 ) => {
   queryConfig = getPaginatedWhere(queryConfig, page);
 
-  try {
-    const items = await prisma[tabela].findMany(queryConfig);
-    const count = await prisma[tabela].count();
+  const count = await (prisma[tabela as keyof PrismaClient] as any).count();
+  const items = await (prisma[tabela as keyof PrismaClient] as any).findMany(
+    queryConfig
+  );
 
-    return { data: items, totalItems: count };
-  } finally {
-    prisma.$disconnect();
-  }
+  return { data: items, totalItems: count };
 };
 
 /**
@@ -45,36 +42,29 @@ export const genericFindAllWithParams = async (
   columnsToSearch: string[],
   req: Request
 ) => {
-  try {
-    const tabela = nomeTabela as string;
-    let response;
-    let queryConfig;
+  const tabela = nomeTabela as string;
+  let response;
+  let queryConfig;
 
-    /** configurar query com pesquisa */
-    if (objectHasProperty(req.query, "search")) {
-      queryConfig = getSearchConfig(
-        columnsToSearch,
-        req.query.search as string
-      );
-    }
-
-    console.log(queryConfig);
-
-    /** retornar query sem paginação */
-    if (!objectHasProperty(req.query, "p")) {
-      response = await prisma[tabela].findMany(queryConfig);
-      return response;
-    }
-
-    /** executar query com paginação, com ou sem search */
-    response = getPaginatedResponse(
-      nomeTabela,
-      queryConfig,
-      req.query.p as string
-    );
-
-    return response;
-  } finally {
-    await prisma.$disconnect();
+  /** configurar query com pesquisa */
+  if (objectHasProperty(req.query, "search")) {
+    queryConfig = getSearchConfig(columnsToSearch, req.query.search as string);
   }
+
+  /** retornar query sem paginação */
+  if (!objectHasProperty(req.query, "p")) {
+    response = await (prisma[tabela as keyof PrismaClient] as any).findMany(
+      queryConfig
+    );
+    return response;
+  }
+
+  /** executar query com paginação, com ou sem search */
+  response = getPaginatedResponse(
+    nomeTabela,
+    queryConfig,
+    req.query.p as string
+  );
+
+  return response;
 };

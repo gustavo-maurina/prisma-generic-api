@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { handleQueryError } from "../../helpers/handleQueryError.helpers";
+import { handleQueryError } from "../../helpers/errorHandlers/handleQueryError.helpers";
 import { GenericRequestConfig } from "../../models/GenericRequestConfig";
 import { genericQueries } from "../genericQueries/genericQueries.services";
 

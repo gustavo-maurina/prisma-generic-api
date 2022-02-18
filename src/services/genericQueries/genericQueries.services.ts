@@ -1,11 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { Request } from "express";
-import PrismaGenericClient from "../../../config/prisma";
+import { prisma } from "../../../config/prisma";
 import { objectHasProperty } from "../../helpers/objectHasProperty.helper";
 import { genericFindAll } from "./genericFindAll.service";
 import { genericFindAllWithParams } from "./genericFindAllWithParams.service";
-
-const prisma: any = PrismaGenericClient;
 
 const findAll = (
   nomeTabela: string,
@@ -22,29 +20,48 @@ const findAll = (
 };
 
 const findById = async (nomeTabela: string, id: string) => {
-  try {
-    const items = await prisma[nomeTabela as keyof PrismaClient].findUnique({
-      where: { id: parseInt(id) },
-    });
-    return items;
-  } finally {
-    await prisma.$disconnect();
-  }
+  const items = await (
+    prisma[nomeTabela as keyof PrismaClient] as any
+  ).findUnique({
+    where: { id: parseInt(id) },
+  });
+  return items;
 };
 
 const create = async (nomeTabela: string, body: object) => {
-  try {
-    const result = await prisma[nomeTabela as keyof PrismaClient].create({
+  const result = await (prisma[nomeTabela as keyof PrismaClient] as any).create(
+    {
       data: body,
-    });
-
-    return result;
-  } finally {
-    await prisma.$disconnect();
-  }
+    }
+  );
+  return result;
 };
 
+const update = async (nomeTabela: string, body: object, id: string) => {
+  const result = await (prisma[nomeTabela as keyof PrismaClient] as any).update(
+    {
+      where: {
+        id: parseInt(id),
+      },
+      data: body,
+    }
+  );
+
+  return result;
+};
+
+const remove = async (nomeTabela: string, id: string) => {
+  const result = await (prisma[nomeTabela as keyof PrismaClient] as any).delete(
+    {
+      where: {
+        id: parseInt(id),
+      },
+    }
+  );
+
+  return result;
+};
 /**
- * Métodos para queries genéricas
+ * Métodos genéricos para métodos CREATE, POST, PUT, DELETE
  */
-export const genericQueries = { create, findById, findAll };
+export const genericQueries = { create, findById, findAll, update, remove };

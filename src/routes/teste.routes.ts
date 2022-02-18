@@ -1,10 +1,10 @@
 import express from "express";
-import PrismaGenericClient from "../../config/prisma";
+import { prisma } from "../../config/prisma";
 
 const router = express.Router();
 
 router.route("/").post(async (req, res) => {
-  const fullTextSearch = await PrismaGenericClient.usuario.findMany({
+  const fullTextSearch = await prisma.usuario.findMany({
     where: {
       OR: [
         {

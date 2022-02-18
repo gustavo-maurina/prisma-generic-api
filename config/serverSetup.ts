@@ -7,7 +7,6 @@ import firebase from "firebase-admin";
 import fbServiceAccountKey from "./fbServiceAccountKey.json";
 
 const PORT = process.env.SERVER_PORT || 8080;
-
 const startFirebaseSdk = () => {
   firebase.initializeApp({
     credential: firebase.credential.cert(fbServiceAccountKey as any),
@@ -39,7 +38,7 @@ export default function serverSetup() {
   generateRoutesFromFiles(app);
 
   app.get("/", (req: Request, res: Response) => {
-    res.send({ message: "API request test" }).status(200);
+    res.send({ message: "Generic API Test" }).status(200);
   });
   app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);

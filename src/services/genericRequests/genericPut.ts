@@ -3,7 +3,7 @@ import { handleQueryError } from "../../helpers/errorHandlers/handleQueryError.h
 import { GenericRequestConfig } from "../../models/GenericRequestConfig";
 import { genericQueries } from "../genericQueries/genericQueries.services";
 
-export const genericGetAll = async (
+export const genericPut = async (
   req: Request,
   res: Response,
   config: GenericRequestConfig
@@ -11,14 +11,8 @@ export const genericGetAll = async (
   try {
     return res
       .status(200)
-      .send(
-        await genericQueries.findAll(
-          config.table,
-          config.columnsToSearch || [],
-          req
-        )
-      );
+      .send(await genericQueries.update(config.table, req.body, req.params.id));
   } catch (err) {
-    res.status(500).send(handleQueryError(err));
+    return res.status(500).send(handleQueryError(err));
   }
 };
