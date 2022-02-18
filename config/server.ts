@@ -2,4 +2,6 @@ import dotenv from "dotenv";
 import serverSetup from "./serverSetup";
 
 dotenv.config();
-serverSetup();
+const server = serverSetup();
+
+export default server;

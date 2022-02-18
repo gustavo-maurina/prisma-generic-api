@@ -58,6 +58,7 @@ const remove = async (nomeTabela: string, id: string) => {
   );
   return result;
 };
+
 /**
  * Métodos genéricos para métodos CREATE, POST, PUT, DELETE
  */

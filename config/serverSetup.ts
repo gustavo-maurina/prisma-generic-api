@@ -7,10 +7,13 @@ import firebase from "firebase-admin";
 import fbServiceAccountKey from "./fbServiceAccountKey.json";
 
 const PORT = process.env.SERVER_PORT || 8080;
+
 const startFirebaseSdk = () => {
-  firebase.initializeApp({
-    credential: firebase.credential.cert(fbServiceAccountKey as any),
-  });
+  if (!firebase.apps.length)
+    firebase.initializeApp({
+      credential: firebase.credential.cert(fbServiceAccountKey as any),
+    });
+  else firebase.app();
 };
 
 const setConfigMiddlewares = (app: any) => {
@@ -40,7 +43,11 @@ export default function serverSetup() {
   app.get("/", (req: Request, res: Response) => {
     res.send({ message: "Generic API Test" }).status(200);
   });
-  app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
-  });
+
+  if (process.env.NODE_ENV !== "test")
+    app.listen(PORT, () => {
+      console.log(`Server running on ${PORT}`);
+    });
+
+  return app;
 }
