@@ -8,13 +8,7 @@
 yarn install
 ```
 
-2. Adicionar Prisma como _devDependency_ para utilizar a CLI
-
-```bash
-yarn add prisma --dev
-```
-
-3. Rodar o script para iniciar o projeto
+2. Rodar o script para iniciar o projeto
 
 ```bash
 yarn run dev
