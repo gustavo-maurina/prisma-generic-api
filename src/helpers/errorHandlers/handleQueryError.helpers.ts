@@ -4,7 +4,7 @@ import handleFirebaseError from "./handleFirebaseError";
 import handlePrismaError from "./handlePrismaError";
 
 /**
- * Lida com erros Gerados em queries, olhar documentação Firebase ou Prisma
+ * Lida com erros gerados em queries, olhar documentação Firebase ou Prisma
  * para visualizar código dos erros.
  * @param erro Erro captado pelo bloco catch do try-catch
  * @returns Objeto contendo sempre mensagem de erro, podendo conter código.
