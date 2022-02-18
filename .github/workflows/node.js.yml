@@ -13,6 +13,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: postgresql://postgres:root@localhost:5432/plantoes?schema=public
+      SERVER_PORT: 8080
+
     services:
       postgres:
         image: postgres:latest
