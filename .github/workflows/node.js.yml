@@ -49,6 +49,5 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: npm install prisma -g
       - run: npx prisma migrate dev --name NomeDaMigration
-      - run: npx prisma db seed
       - run: yarn test
       - run: yarn dev
