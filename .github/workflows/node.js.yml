@@ -50,4 +50,3 @@ jobs:
       - run: npm install prisma -g
       - run: npx prisma migrate dev --name NomeDaMigration
       - run: yarn test
-      - run: yarn dev
