@@ -2,13 +2,15 @@
 
 ## Iniciar o projeto
 
-1. Baixar dependências com:
+1. Incluir arquivo com credenciais Firebase na pasta config
+
+2. Baixar dependências com:
 
 ```bash
 yarn install
 ```
 
-2. Rodar o script para iniciar o projeto
+3. Rodar o script para iniciar o projeto
 
 ```bash
 yarn run dev
